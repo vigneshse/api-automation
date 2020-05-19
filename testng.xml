@@ -1,0 +1,10 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+
+<suite name="APISuite" verbose="1" >
+    <test name="APIScenario"   >
+        <classes>
+            <class name="com.automation.apibdd.apisuite.APIScenario1Test" />
+            <class name="com.automation.apibdd.apisuite.APIScenario2Test" />
+        </classes>
+    </test>
+</suite>

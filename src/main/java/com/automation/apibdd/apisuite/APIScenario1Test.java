@@ -1,10 +1,9 @@
-package com.automation.apibdd.test;
+package com.automation.apibdd.apisuite;
 
 import static org.hamcrest.Matchers.equalTo;
 
-import com.automation.apibdd.common.APIProcessor;
+import com.automation.apibdd.common.ApiProcessor;
 import com.automation.apibdd.common.JsonProcessor;
-import com.google.gson.Gson;
 import io.restassured.response.Response;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -12,16 +11,16 @@ import org.testng.annotations.Test;
 
 import java.lang.reflect.Method;
 
-public class APIScenario1 {
+public class APIScenario1Test {
 
     private JsonProcessor jsonProcessor;
-    private APIProcessor apiProcessor;
+    private ApiProcessor apiProcessor;
     private String methodName;
 
     @BeforeClass
-    public void setUP(){
-        jsonProcessor = new JsonProcessor(new Gson());
-        apiProcessor = new APIProcessor("http://www.mocky.io/v2/5ec2d4e32f0000adbcc35665");
+    public void setUp(){
+        jsonProcessor = new JsonProcessor();
+        apiProcessor = new ApiProcessor("http://www.mocky.io/v2/5ec32e25300000660039bf06");
     }
 
     @BeforeMethod
@@ -30,9 +29,9 @@ public class APIScenario1 {
     }
 
     @Test
-    public void shouldReturnSuccessForAPICall(){
+    public void shouldReturnDataForGet(){
         Response response = apiProcessor.getResponse();
         jsonProcessor.writeJsonFile(response.getBody(), methodName);
-        response.then().assertThat().body("name", equalTo("John"));
+        response.then().assertThat().body("data", equalTo("4096"));
     }
 }

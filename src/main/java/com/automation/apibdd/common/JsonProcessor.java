@@ -1,9 +1,11 @@
 package com.automation.apibdd.common;
 
+import com.automation.apibdd.model.ApiResponse;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import io.restassured.response.ResponseBody;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -13,32 +15,30 @@ import java.nio.file.Paths;
 
 public class JsonProcessor {
 
-    private Gson gson;
-    private final String jsonExt = ".json";
+    Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-    public JsonProcessor(Gson gson){
-        this.gson = gson;
-    }
+    private final String jsonExt = ".json";
 
     public void writeJsonFile(ResponseBody responseBody, String filePath) {
         try {
             Writer writer = Files.newBufferedWriter(Paths.get(filePath + jsonExt));
-            gson.toJson(responseBody.prettyPrint(), writer);
+            JsonObject jsonObject = gson.fromJson(responseBody.prettyPrint(), JsonObject.class);
+            gson.toJson(jsonObject, writer);
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public ResponseBody readJsonFile(String filePath) {
-        ResponseBody responseBody = null;
+    public JsonObject readJsonFile(String filePath) {
+        JsonObject jsonObject = null;
         try {
             Reader reader = Files.newBufferedReader(Paths.get(filePath + jsonExt));
-            responseBody = gson.fromJson(reader,ResponseBody.class);
+            jsonObject = gson.fromJson(reader, JsonObject.class);
             reader.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return responseBody;
+        return jsonObject;
     }
 }
