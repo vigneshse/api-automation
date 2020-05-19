@@ -1,10 +1,8 @@
 package com.automation.apibdd.common;
 
-import com.automation.apibdd.model.ApiResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import io.restassured.response.ResponseBody;
 
 import java.io.IOException;
